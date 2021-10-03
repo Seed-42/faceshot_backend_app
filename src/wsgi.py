@@ -7,11 +7,16 @@ from config.app import APP_HOST, APP_PORT
 app = Flask(__name__)
 api = Api(app)
 
+
 @api.route("/predict")
 class Predict(Resource):
     def post(self):
         # Todo: Link prediction.
-        pass
+        return {
+            "result": [],
+            "message": "Success",
+        }, 200
 
-if __name__=="__main__"
+
+if __name__ == "__main__":
     app.run(host=APP_HOST, port=APP_PORT)
