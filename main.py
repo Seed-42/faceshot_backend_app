@@ -13,7 +13,13 @@ class Predict(Resource):
     def post(self):
         # Todo: Link prediction.
         return {
-            "result": [],
+            "result": {
+                "ram": "absent",
+                "jerin": "present",
+                "praharsh": "absent",
+                "prithvi": "present",
+                "abhishek": "absent",
+            },
             "message": "Success",
         }, 200
 
