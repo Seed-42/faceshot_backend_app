@@ -26,4 +26,4 @@ ENV APP_LOG_LEVEL DEBUG
 ENV APP_TEMP_PATH /app/tmp
 
 # CMD exec gunicorn --bind :$APP_PORT --workers 1 --threads 8 --timeout 0 main:app
-CMD ["gunicorn","--bind","0.0.0.0:7000","main","--timeout=300"]
+CMD ["gunicorn","--bind","0.0.0.0:7000","wsgi:app","--timeout=300"]

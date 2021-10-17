@@ -4,6 +4,8 @@ import shutil
 # App credentials.
 APP_HOST = os.environ.get("APP_HOST")
 APP_PORT = os.environ.get("APP_PORT")
+if APP_PORT:
+    APP_PORT = int(APP_PORT)
 
 # Logs.
 APP_LOG_PATH = os.environ.get("APP_LOG_PATH")

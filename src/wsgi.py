@@ -11,7 +11,7 @@ from api import api_blueprint, api
 app = Flask(__name__)
 CORS(app)
 app.register_blueprint(api_blueprint)
-app.wsgi_app = ProxyFix(app.wsgi_app, x_proto=1, x_host=1)
+# app.wsgi_app = ProxyFix(app.wsgi_app, x_proto=1, x_host=1)
 
 
 @api.route("/get_prediction")
