@@ -32,14 +32,14 @@ class Predict(Resource):
                         "name": "Praharsh",
                         "status": "absent"
                     },
-                    {
-                        "name": "Prithvi",
-                        "status": "present"
-                    },
-                    {
-                        "name": "Abhishek",
-                        "status": "absent"
-                    }
+                    # {
+                    #     "name": "Prithvi",
+                    #     "status": "present"
+                    # },
+                    # {
+                    #     "name": "Abhishek",
+                    #     "status": "absent"
+                    # }
                 ],
                 "message": "Success",
             }, 200
