@@ -2,16 +2,18 @@ import os
 import shutil
 
 # App credentials.
-APP_HOST = os.environ.get("APP_HOST", "0.0.0.0")
-APP_PORT = os.environ.get("APP_PORT", "7000")
+APP_HOST = os.environ.get("APP_HOST")
+APP_PORT = os.environ.get("APP_PORT")
 
 # Logs.
-APP_LOG_PATH = os.environ.get("APP_LOG_PATH", "/tmp/capstone1-local/logs")
+APP_LOG_PATH = os.environ.get("APP_LOG_PATH")
 APP_LOG_LEVEL = os.environ.get("APP_LOG_LEVEL", "DEBUG")
+APP_LOG_FORMAT = "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
 
-APP_TEMP_PATH = os.environ.get("APP_TEMP_PATH", "/tmp/capstone1-local/data")
+APP_TEMP_PATH = os.environ.get("APP_TEMP_PATH")
 
 # Create paths if not exist.
 for path in [APP_TEMP_PATH, APP_LOG_PATH]:
-    shutil.rmtree(path)
-    os.mkdir(path)
+    if os.path.exists(path):
+        shutil.rmtree(path)
+    os.makedirs(path)
