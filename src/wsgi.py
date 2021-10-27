@@ -21,25 +21,14 @@ class Predict(Resource):
             return {
                 "result": [
                     {
-                        "name": "Ram",
-                        "status": "absent"
+                        "student_id": "N3gAFHY4Cxew1bgXWnVUa2MYPuR2",
+                        "student_attendance_status": True,
+                        # "student_deltected_photo": <base64image> This is returned when student_attendance_status is true
                     },
                     {
-                        "name": "Jerin",
-                        "status": "present"
+                        "student_id": "FI2Q5DEgUhUWXd6A6w7wy8dc2Kx1",
+                        "student_attendance_status": False
                     },
-                    {
-                        "name": "Praharsh",
-                        "status": "absent"
-                    },
-                    # {
-                    #     "name": "Prithvi",
-                    #     "status": "present"
-                    # },
-                    # {
-                    #     "name": "Abhishek",
-                    #     "status": "absent"
-                    # }
                 ],
                 "message": "Success",
             }, 200
