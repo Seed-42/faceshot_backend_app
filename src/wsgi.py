@@ -19,10 +19,15 @@ class TestPredict(Resource):
             return {
                 "result": [
                     {
-                      "id": "1a2a34s5d23f4d",
-                      "confidence": 99.0,
-                      "coordinates": [12.3, 24.0, 36.5, 48.2],
-                    }
+                        "student_id": "1a2a34s5d23f4d",
+                        "student_attendance_confidence": 99.0,
+                        "student_detected_face_coordinates": {
+                            'topleft': [1, 1],
+                            'topright': [24, 1],
+                            'bottomleft': [24, 24],
+                            'bottomright': [1, 24],
+                        }
+                    },
                 ],
                 "message": "Success",
             }, 200
