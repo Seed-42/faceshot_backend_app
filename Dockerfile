@@ -10,7 +10,9 @@ RUN apt-get update && apt-get install -y pkg-config \
                                         python3-distutils \
                                         python3-pkg-resources \
                                         python3-tk \
-                                        git
+                                        git \
+                                        libgl1-mesa-glx
+
 COPY requirements.txt .
 RUN pip3 install --upgrade pip
 RUN pip3 install -r requirements.txt
