@@ -16,16 +16,12 @@ RUN apt-get update && apt-get install -y pkg-config \
 COPY requirements.txt .
 RUN pip3 install --upgrade pip
 RUN pip3 install -r requirements.txt
-RUN mkdir -p /app/logs && touch /app/logs/app_log.log
+
+RUN mkdir -p /app/logs && touch /app/logs/faceshot_backend_app.log
 WORKDIR /app
 RUN mkdir -p /app/tmp
+RUN mkdir -p /app/models
 COPY src/ .
 
-ENV APP_HOST 0.0.0.0
-ENV APP_PORT 7000
-ENV APP_LOG_PATH /app/logs
-ENV APP_LOG_LEVEL DEBUG
-ENV APP_TEMP_PATH /app/tmp
-
 # CMD exec gunicorn --bind :$APP_PORT --workers 1 --threads 8 --timeout 0 main:app
-CMD ["gunicorn","--bind","0.0.0.0:7000","wsgi:app","--timeout=300"]
+CMD exec gunicorn --bind ${APP_HOST}:${APP_PORT} --timeout=300 wsgi:app
