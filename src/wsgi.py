@@ -4,8 +4,9 @@ from flask_restx import Resource
 
 from api import api_blueprint, api
 from config.app import APP_HOST, APP_PORT
-from actions.predict import FaceDetector
-from utils.utils import save_image
+# from actions.predict import FaceDetector
+from utils import utils
+from actions.FaceRec import FaceRec
 
 app = Flask(__name__)
 CORS(app)
@@ -51,11 +52,15 @@ class Predict(Resource):
             if not isinstance(image_string, str):
                 raise ValueError("Image format incorrect.")
 
-            # Save image.
-            image_path = save_image(image_string)
+            # # Save image.
+            # image_path = utils.save_image(image_string)
+            # # Get predictions.
+            # result = FaceDetector(image_path).detect()
+            # bytes_image = utils.convert_image_string_to_bytes(image_string)
+            # np_image = utils.convert_image_bytes_to_np_array(bytes_image)
 
-            # Get predictions.
-            result = FaceDetector(image_path).detect()
+            image_np = utils.convert_image_string_to_nparray(image_string)
+            result = FaceRec().runFaceRec(image_np)
 
             return {
                 "result": result,
