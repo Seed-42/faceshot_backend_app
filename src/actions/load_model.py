@@ -5,7 +5,7 @@ import mxnet as mx
 from mxnet.contrib.onnx.onnx2mx.import_model import import_model
 
 from config.app import APP_PRETRAINED_MODELS_PATH
-from logs.app import logger
+# from logs.app import logger
 from utils.gcloud_utils import download_models
 
 if len(mx.test_utils.list_gpus()) == 0:
@@ -19,7 +19,7 @@ def get_model():
     Loads ArcFace Model.
     """
 
-    logger.info(f"Model loading started..")
+    print(f"Model loading started..")
     start_time = datetime.now()
     model_path = os.path.join(APP_PRETRAINED_MODELS_PATH, "models/base_model/resnet100.onnx")
     image_size = (112, 112)
@@ -32,7 +32,7 @@ def get_model():
     model.bind(data_shapes=[('data', (1, 3, image_size[0], image_size[1]))])
     model.set_params(arg_params, aux_params)
 
-    logger.info(f"Model loading time: {datetime.now()-start_time} seconds")
+    print(f"Model loading time: {datetime.now()-start_time} seconds")
     return model
 
 

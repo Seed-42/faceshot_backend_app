@@ -6,13 +6,13 @@ from google.cloud import storage
 from google.oauth2 import service_account
 
 from config import app
-from logs.app import logger
+# from logs.app import logger
 
 import json
 
 
 def download_models():
-    logger.info("Downloading models from cloud..")
+    print("Downloading models from cloud..")
     start_time = datetime.now()
 
     # Get credentials.
@@ -36,4 +36,4 @@ def download_models():
         Path(directory).mkdir(parents=True, exist_ok=True)
         blob.download_to_filename(os.path.join(directory, file_name))
 
-    logger.info(f"Models downloaded. Time taken: {datetime.now() - start_time} seconds")
+    print(f"Models downloaded. Time taken: {datetime.now() - start_time} seconds")
