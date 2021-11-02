@@ -24,4 +24,4 @@ RUN mkdir -p /app/models
 COPY src/ .
 
 # CMD exec gunicorn --bind :$APP_PORT --workers 1 --threads 8 --timeout 0 main:app
-CMD exec gunicorn --bind ${APP_HOST}:${APP_PORT} --timeout=300 wsgi:app
+CMD exec gunicorn --bind 0.0.0.0:7000 --timeout=300 wsgi:app
