@@ -5,10 +5,10 @@ steps:
 # Push the container image to Container Registry
 - name: 'gcr.io/cloud-builders/docker'
   args: ['push', 'gcr.io/faceshot-backend-app/faceshot-backend']
-# Deploy container image to Cloud Run
-- name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
-  entrypoint: gcloud
-  args: ['run', 'deploy', 'faceshot-backend', '--image', 'gcr.io/faceshot-backend-app/faceshot-backend', '--region', 'us-central1', '--port', '7000']
+## Deploy container image to Cloud Run
+#- name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+#  entrypoint: gcloud
+#  args: ['run', 'deploy', 'faceshot-backend', '--image', 'gcr.io/faceshot-backend-app/faceshot-backend', '--region', 'us-central1', '--port', '7000']
 images:
 - gcr.io/faceshot-backend-app/faceshot-backend
 timeout: 1800s
