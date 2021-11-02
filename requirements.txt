@@ -8,6 +8,7 @@ werkzeug==2.0.1
 ### ML
 tensorflow==2.6.0
 opencv-python==4.5.4.58
+opencv_contrib_python
 mxnet==1.6.0
 mtcnn==0.1.1
 numpy==1.19.5
