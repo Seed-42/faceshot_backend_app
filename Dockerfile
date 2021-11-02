@@ -11,7 +11,10 @@ RUN apt-get update && apt-get install -y pkg-config \
                                         python3-pkg-resources \
                                         python3-tk \
                                         git \
-                                        libgl1-mesa-glx
+                                        libgl1-mesa-glx \
+                                        ffmpeg \
+                                        libsm6 \
+                                        libxext6
 
 COPY requirements.txt .
 RUN pip3 install --upgrade pip
