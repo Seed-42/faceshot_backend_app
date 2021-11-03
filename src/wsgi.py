@@ -46,6 +46,10 @@ class Predict(Resource):
         try:
             image_string = request.form.get("image", "")
 
+            if not image_string:
+                request_json = request.get_json()
+                image_string = request_json.get("image", "")
+
             # Check if image is present.
             if not image_string:
                 raise AttributeError("Missing required attributes in incoming request.")
