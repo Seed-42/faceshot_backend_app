@@ -30,11 +30,13 @@ class TestPredict(Resource):
                         }
                     },
                 ],
-                "message": "Success",
+                "message": "Face detection complete.",
+                "success": "true"
             }, 200
         except Exception as err:
             return {
                 "message": "Error",
+                "success": "false"
             }, 500
 
 
@@ -64,12 +66,14 @@ class Predict(Resource):
 
             return {
                 "result": result,
-                "message": "Success",
+                "message": "Face detection complete.",
+                "success": "true"
             }, 200
 
         except Exception as err:
             return {
                 "message": f"{err}",
+                "success": "false"
             }, 500
 
 
