@@ -147,10 +147,7 @@ class FaceRec:
         max_similarity_identity = embeddings[max_similarity_key]
         max_similarity_confidence = sim_dict[max_similarity_key]
 
-        if max_similarity_confidence < threshold:
-            return "N/A", max_similarity_confidence
-        else:
-            return max_similarity_identity, max_similarity_confidence.round(4)
+        return max_similarity_identity, max_similarity_confidence.round(4)
 
     def _get_embeddings(self):
         embeddings_path = os.path.join(APP_PRETRAINED_MODELS_PATH, "models/embeddings/embed.h5py")
@@ -188,9 +185,9 @@ class FaceRec:
                         "student_attendance_confidence": round(float(confidence), 2),
                         "student_detected_face_coordinates": {
                             'topleft': [bbox[0], bbox[1]],
-                            'topright': [bbox[2], bbox[1]],
-                            'bottomleft': [bbox[0], bbox[3]],
-                            'bottomright': [bbox[2], bbox[3]]
+                            'topright': [bbox[0] + bbox[2], bbox[1]],
+                            'bottomleft': [bbox[0], bbox[1] + bbox[3]],
+                            'bottomright': [bbox[0] + bbox[2], bbox[1] + bbox[3]]
                         }
                     },
                 )
