@@ -180,7 +180,7 @@ class FaceRec:
 
                 # save image.
                 img_array = aligned[0]
-                img_path_local = os.path.join(self.tmp_folder, f"{id_dict[id]}.jpeg")
+                img_path_local = os.path.join(self.tmp_folder, f"{str(uuid.uuid4())}.jpeg")
                 utils.utils.convert_nparray_to_image(img_array=img_array, img_path=img_path_local)
 
                 # Upload image to GCP storage and share public link.
