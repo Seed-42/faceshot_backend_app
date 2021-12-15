@@ -184,7 +184,7 @@ class FaceRec:
                 utils.utils.convert_nparray_to_image(img_array=img_array, img_path=img_path_local)
 
                 # Upload image to GCP storage and share public link.
-                destination_path = os.path.join(destination_base_folder, f"{id_dict[id]}.jpeg")
+                destination_path = os.path.join(destination_base_folder, f"{str(uuid.uuid4())}.jpeg")
                 file_url = utils.gcloud_utils.upload_image(img_path_local, destination_path)
 
                 detected_identities.append(
