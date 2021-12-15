@@ -1,12 +1,13 @@
 import os
+import pickle
 from datetime import datetime
 
 import mxnet as mx
 from mxnet.contrib.onnx.onnx2mx.import_model import import_model
 
-from config.app import APP_PRETRAINED_MODELS_PATH
-# from logs.app import logger
+from config.config import APP_PRETRAINED_MODELS_PATH
 from utils.gcloud_utils import download_models
+# from logs.app import logger
 
 if len(mx.test_utils.list_gpus()) == 0:
     context = mx.cpu()
@@ -36,7 +37,15 @@ def get_model():
     return model
 
 
+def get_embeddings():
+    embeddings_path = os.path.join(APP_PRETRAINED_MODELS_PATH, "models/embeddings/embed.h5py")
+    with open(embeddings_path, 'rb') as handle:
+        embeddings = pickle.load(handle)
+    return embeddings
+
+
 # Download models from cloud.
 download_models()
 
 MODEL = get_model()
+EMBEDDINGS = get_embeddings()
