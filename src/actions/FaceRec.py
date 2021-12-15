@@ -32,13 +32,22 @@ import os
 
 
 # data_path = "../Data/all/*"
+# name_dict = {
+#     "qb69UR7bW5RdcPMUKfnm3wbUP4A3": 0,
+#     "MVF4I3Hxusd0VAmS38xqWQjuhgu2": 1,
+#     "6FgYXUw5ONVnUx4yPwLUCxIPBTD2": 2,
+#     "U9anneAEz6a8DN0WbO4aiSHeLsh2": 3,
+#     "yF9tqPcvp2en8evI9XgYCm92D8r1": 4,
+#     "n515i0Lm9BXpJ3a7xqZ8A5RXtfs2": 5
+# }
+
 name_dict = {
-    "qb69UR7bW5RdcPMUKfnm3wbUP4A3": 0,
-    "MVF4I3Hxusd0VAmS38xqWQjuhgu2": 1,
-    "6FgYXUw5ONVnUx4yPwLUCxIPBTD2": 2,
-    "U9anneAEz6a8DN0WbO4aiSHeLsh2": 3,
-    "yF9tqPcvp2en8evI9XgYCm92D8r1": 4,
-    "n515i0Lm9BXpJ3a7xqZ8A5RXtfs2": 5
+    "joey": 0,
+    "chan": 1,
+    "moni": 2,
+    "rach": 3,
+    "ross": 4,
+    "pheo": 5
 }
 
 detector = MTCNN()

@@ -12,12 +12,12 @@ scikit-image==0.17.2
 scikit-learn==0.24.2
 
 # local
-opencv-python==4.5.4.58
-opencv_contrib_python==4.5.4.58
+# opencv-python==4.5.4.58
+# opencv_contrib_python==4.5.4.58
 
 # server
-# opencv-python-headless
-# opencv-contrib-python-headless
+opencv-python-headless==4.5.4.58
+opencv-contrib-python-headless==4.5.4.58
 
 mxnet==1.6.0
 mtcnn==0.1.1
