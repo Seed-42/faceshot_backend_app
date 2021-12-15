@@ -1,22 +1,21 @@
 import base64
-import os
-import uuid
-
 import cv2
 import numpy as np
 from PIL import Image
+import urllib.request
+import os
 
-from config.config import APP_TEMP_PATH
-
-
-def save_image(image_string):
-    img_bytes = image_string.encode('utf-8')
-    img_data = base64.decodebytes(img_bytes)
-    file_name = f'{uuid.uuid4()}.jpg'
-    image_path = os.path.join(APP_TEMP_PATH, file_name)
-    with open(image_path, "wb") as fh:
-        fh.write(img_data)
-    return image_path
+# from config.config import APP_TEMP_PATH
+# import os
+# import uuid
+# def save_image(image_string):
+#     img_bytes = image_string.encode('utf-8')
+#     img_data = base64.decodebytes(img_bytes)
+#     file_name = f'{uuid.uuid4()}.jpg'
+#     image_path = os.path.join(APP_TEMP_PATH, file_name)
+#     with open(image_path, "wb") as fh:
+#         fh.write(img_data)
+#     return image_path
 
 
 def convert_image_string_to_nparray(image_string):
@@ -29,3 +28,10 @@ def convert_image_string_to_nparray(image_string):
 def convert_nparray_to_image(img_array, img_path):
     im = Image.fromarray(img_array)
     im.save(f"{img_path}")
+
+
+def download_and_load_image(url, img_dir):
+    img_path = os.path.join(img_dir, "input_image.jpeg")
+    urllib.request.urlretrieve(url, img_path)
+    img = cv2.imread(img_path)
+    return img
