@@ -63,7 +63,54 @@ class Predict(Resource):
             if not isinstance(image_string, str):
                 raise ValueError("Image format incorrect.")
 
+            # Get image array from base64 string.
             image_np = utils.convert_image_string_to_nparray(image_string)
+
+            # Get identities.
+            result = FaceRec(tmp_data_folder_path).runFaceRec(image_np)
+
+            return {
+                "result": result,
+                "message": "Face detection complete.",
+                "success": "true"
+            }, 200
+
+        except Exception as err:
+            return {
+                "message": f"{err}",
+                "success": "false"
+            }, 500
+
+        finally:
+            if os.path.exists(tmp_data_folder_path):
+                shutil.rmtree(tmp_data_folder_path)
+
+
+@api.route("/url/get_prediction")
+class PredictByURL(Resource):
+    def post(self):
+
+        # Create a data folder to store tmp files for current request.
+        tmp_data_folder_path = os.path.join(config.APP_TEMP_PATH, str(uuid.uuid4()))
+        if os.path.exists(tmp_data_folder_path):
+            shutil.rmtree(tmp_data_folder_path)
+        os.makedirs(tmp_data_folder_path)
+
+        try:
+            image_url = request.form.get("url", "")
+
+            # Check if image is present.
+            if not image_url:
+                raise AttributeError("Missing image url in incoming request.")
+
+            # Check if image is base64 type.
+            if not isinstance(image_url, str):
+                raise ValueError("Image url format incorrect.")
+
+            # Download image from url and load it.
+            image_np = utils.download_and_load_image(image_url, tmp_data_folder_path)
+
+            # Get identities.
             result = FaceRec(tmp_data_folder_path).runFaceRec(image_np)
 
             return {
