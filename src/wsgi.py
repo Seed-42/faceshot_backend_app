@@ -3,10 +3,13 @@ from flask_cors import CORS
 from flask_restx import Resource
 
 from api import api_blueprint, api
-from config.app import APP_HOST, APP_PORT
+from config import config
 # from actions.predict import FaceDetector
 from utils import utils
 from actions.FaceRec import FaceRec
+import os
+import uuid
+import shutil
 
 app = Flask(__name__)
 CORS(app)
@@ -22,12 +25,7 @@ class TestPredict(Resource):
                     {
                         "student_id": "1a2a34s5d23f4d",
                         "student_attendance_confidence": 99.0,
-                        "student_detected_face_coordinates": {
-                            'topleft': [1, 1],
-                            'topright': [24, 1],
-                            'bottomleft': [24, 24],
-                            'bottomright': [1, 24],
-                        }
+                        "file_url": "https://storage.googleapis.com/seed42-faceshot-output-images/ae10d9db-0ba1-494f-821f-cca7049efa6c/qb69UR7bW5RdcPMUKfnm3wbUP4A3.jpeg"
                     },
                 ],
                 "message": "Face detection complete.",
@@ -43,6 +41,13 @@ class TestPredict(Resource):
 @api.route("/get_prediction")
 class Predict(Resource):
     def post(self):
+
+        # Create a data folder to store tmp files for current request.
+        tmp_data_folder_path = os.path.join(config.APP_TEMP_PATH, str(uuid.uuid4()))
+        if os.path.exists(tmp_data_folder_path):
+            shutil.rmtree(tmp_data_folder_path)
+        os.makedirs(tmp_data_folder_path)
+
         try:
             image_string = request.form.get("image", "")
 
@@ -58,15 +63,8 @@ class Predict(Resource):
             if not isinstance(image_string, str):
                 raise ValueError("Image format incorrect.")
 
-            # # Save image.
-            # image_path = utils.save_image(image_string)
-            # # Get predictions.
-            # result = FaceDetector(image_path).detect()
-            # bytes_image = utils.convert_image_string_to_bytes(image_string)
-            # np_image = utils.convert_image_bytes_to_np_array(bytes_image)
-
             image_np = utils.convert_image_string_to_nparray(image_string)
-            result = FaceRec().runFaceRec(image_np)
+            result = FaceRec(tmp_data_folder_path).runFaceRec(image_np)
 
             return {
                 "result": result,
@@ -80,6 +78,10 @@ class Predict(Resource):
                 "success": "false"
             }, 500
 
+        finally:
+            if os.path.exists(tmp_data_folder_path):
+                shutil.rmtree(tmp_data_folder_path)
+
 
 if __name__ == "__main__":
-    app.run(host=APP_HOST, port=APP_PORT)
+    app.run(host=config.APP_HOST, port=config.APP_PORT)

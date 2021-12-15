@@ -1,6 +1,6 @@
 import logging
 
-from config.app import APP_LOG_FORMAT, APP_LOG_PATH, APP_LOG_LEVEL
+from config.config import APP_LOG_FORMAT, APP_LOG_PATH, APP_LOG_LEVEL
 
 logFormatter = logging.Formatter(APP_LOG_FORMAT)
 logger = logging.getLogger("faceshot_backend")

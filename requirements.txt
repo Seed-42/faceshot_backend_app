@@ -6,16 +6,24 @@ gunicorn==20.0.4
 werkzeug==2.0.1
 
 ### ML
+
 tensorflow==2.5.0
-opencv-python==4.5.4.58
-opencv_contrib_python
+scikit-image==0.17.2
+scikit-learn==0.24.2
+
+# local
+# opencv-python==4.5.4.58
+# opencv_contrib_python==4.5.4.58
+
+# server
+opencv-python-headless==4.5.4.58
+opencv-contrib-python-headless==4.5.4.58
+
 mxnet==1.6.0
 mtcnn==0.1.1
 numpy==1.19.5
 protobuf==3.16.0
 onnx==1.10.2
-scikit-image==0.17.2
-scikit-learn==0.24.2
 
 ### DEPLOY
 google-cloud-storage==1.42.3

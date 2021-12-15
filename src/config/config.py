@@ -16,7 +16,11 @@ APP_LOG_FORMAT = "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
 APP_PRETRAINED_MODELS_PATH = os.environ.get("APP_PRETRAINED_MODELS_PATH")
 
 # GCLOUD
-GS_CREDENTIALS = os.environ.get("GS_CREDENTIALS")
+GS_CREDENTIALS = os.environ.get("GS_CREDENTIALS", "")
+GS_MODELS_BUCKET_NAME = os.environ.get("GS_MODELS_BUCKET_NAME", "")
+GS_IMAGES_BUCKET_NAME = os.environ.get("GS_IMAGES_BUCKET_NAME", "")
+if not all([GS_CREDENTIALS, GS_MODELS_BUCKET_NAME, GS_IMAGES_BUCKET_NAME]):
+    raise Exception("Google Storage credentials missing.")
 
 # TEMP
 APP_TEMP_PATH = os.environ.get("APP_TEMP_PATH")

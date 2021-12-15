@@ -6,7 +6,7 @@ import uuid
 import numpy as np
 from PIL import Image
 
-from config.app import APP_TEMP_PATH
+from config.config import APP_TEMP_PATH
 
 
 def save_image(image_string):
@@ -24,3 +24,8 @@ def convert_image_string_to_nparray(image_string):
     image = Image.open(io.BytesIO(base64_decoded))
     image_np = np.array(image)
     return image_np
+
+
+def convert_nparray_to_image(img_array, img_path):
+    im = Image.fromarray(img_array)
+    im.save(f"{img_path}")
