@@ -1,8 +1,8 @@
 import base64
-import io
 import os
 import uuid
 
+import cv2
 import numpy as np
 from PIL import Image
 
@@ -20,10 +20,10 @@ def save_image(image_string):
 
 
 def convert_image_string_to_nparray(image_string):
-    base64_decoded = base64.b64decode(image_string)
-    image = Image.open(io.BytesIO(base64_decoded))
-    image_np = np.array(image)
-    return image_np
+    image_data = base64.b64decode(image_string)
+    im_arr = np.frombuffer(image_data, dtype=np.uint8)  # im_arr is one-dim Numpy array
+    img = cv2.imdecode(im_arr, flags=cv2.IMREAD_COLOR)
+    return img
 
 
 def convert_nparray_to_image(img_array, img_path):
