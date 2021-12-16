@@ -39,7 +39,7 @@ def get_model():
 
 def get_embeddings():
     # embeddings_path = os.path.join(APP_PRETRAINED_MODELS_PATH, "models/embeddings/embed.h5py")
-    embeddings_path = os.path.join(APP_PRETRAINED_MODELS_PATH, "/app/actions/embed.h5py")
+    embeddings_path = "/app/actions/embed.h5py"
     with open(embeddings_path, 'rb') as handle:
         embeddings = pickle.load(handle)
     return embeddings
