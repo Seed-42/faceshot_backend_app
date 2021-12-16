@@ -41,14 +41,16 @@ import os
 #     "n515i0Lm9BXpJ3a7xqZ8A5RXtfs2": 5
 # }
 
-name_dict = {
-    "joey": 0,
-    "chan": 1,
-    "moni": 2,
-    "rach": 3,
-    "ross": 4,
-    "pheo": 5
-}
+# name_dict = {
+#     "joey": 0,
+#     "chan": 1,
+#     "moni": 2,
+#     "rach": 3,
+#     "ross": 4,
+#     "pheo": 5
+# }
+
+name_dict = {"prah":0, "jeri":1}
 
 detector = MTCNN()
 
