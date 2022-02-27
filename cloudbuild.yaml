@@ -1,14 +1,14 @@
 steps:
 # Build the container image
 - name: 'gcr.io/cloud-builders/docker'
-  args: ['build', '-t', 'gcr.io/faceshot-backend-app/faceshot-backend', '.']
+  args: ['build', '-t', 'gcr.io/seed42-faceshot-phase2/seed42-faceshot', '.']
 # Push the container image to Container Registry
 - name: 'gcr.io/cloud-builders/docker'
-  args: ['push', 'gcr.io/faceshot-backend-app/faceshot-backend']
+  args: ['push', 'gcr.io/seed42-faceshot-phase2/seed42-faceshot']
 ## Deploy container image to Cloud Run
 #- name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
 #  entrypoint: gcloud
-#  args: ['run', 'deploy', 'faceshot-backend', '--image', 'gcr.io/faceshot-backend-app/faceshot-backend', '--region', 'us-central1', '--port', '7000']
+#  args: ['run', 'deploy', 'seed42-faceshot', '--image', 'gcr.io/seed42-faceshot-phase2/seed42-faceshot', '--region', 'us-central1', '--port', '7000']
 images:
-- gcr.io/faceshot-backend-app/faceshot-backend
+- gcr.io/seed42-faceshot-phase2/seed42-faceshot
 timeout: 1800s
