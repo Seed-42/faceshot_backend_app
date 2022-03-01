@@ -1,19 +1,46 @@
+import os
+import shutil
+import time
+import uuid
+from threading import Thread
+
 from flask import Flask, request
 from flask_cors import CORS
 from flask_restx import Resource
 
-from api import api_blueprint, api
-from config import config
-# from actions.predict import FaceDetector
-from utils import utils
 from actions.FaceRec import FaceRec
-import os
-import uuid
-import shutil
+from actions.train import TrainFaceRecognizer
+from api import api_blueprint, api
+from utils import utils
+from config import config
 
 app = Flask(__name__)
 CORS(app)
 app.register_blueprint(api_blueprint)
+
+
+@api.route("/train")
+class TrainFaceRec(Resource):
+    def post(self):
+
+        try:
+            def do_work(value):
+                time.sleep(value)
+                TrainFaceRecognizer().train()
+
+            thread = Thread(target=do_work, kwargs={'value': request.args.get('value', 60)})
+            thread.start()
+
+            return {
+                "message": "Train Accepted.",
+                "success": "true"
+            }, 200
+
+        except Exception as err:
+            return {
+                "message": "Error",
+                "success": "false"
+            }, 500
 
 
 @api.route("/test")
@@ -25,7 +52,7 @@ class TestPredict(Resource):
                     {
                         "student_id": "1a2a34s5d23f4d",
                         "student_attendance_confidence": 99.0,
-                        "file_url": "https://storage.googleapis.com/seed42-faceshot-output-images/ae10d9db-0ba1-494f-821f-cca7049efa6c/qb69UR7bW5RdcPMUKfnm3wbUP4A3.jpeg"
+                        "file_url": "https://storage.googleapis.com/seed42-faceshot-phase2-output-images/2d81bd1b-d6fb-4fed-81e8-b3eaf8088791/69ce3b5f-da9b-42c3-9ea5-ec40deac7e70.jpeg"
                     },
                 ],
                 "message": "Face detection complete.",
