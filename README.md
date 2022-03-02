@@ -12,6 +12,9 @@ Three APIs
     3. /url/get_prediction
     Get prediction results with image url as input.
 
+    4. /train
+    Add more facial embeddings to the model.
+
 GS cloud
     
     Model is pulled from google cloud storage during initial app starting.
