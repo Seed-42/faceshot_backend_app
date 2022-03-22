@@ -26,9 +26,12 @@ class TrainFaceRec(Resource):
         try:
             def do_work(value):
                 time.sleep(value)
+                # Todo: Add facial features and save embeddings.
                 TrainFaceRecognizer().train()
+                # Todo: Upload new embeddings and add current to backup in GS.
+                # Todo: Send a post to firebase to notify training is done.
 
-            thread = Thread(target=do_work, kwargs={'value': request.args.get('value', 60)})
+            thread = Thread(target=do_work, kwargs={'value': request.args.get('value', 20)})
             thread.start()
 
             return {

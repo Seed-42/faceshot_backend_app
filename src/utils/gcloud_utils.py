@@ -59,3 +59,17 @@ def upload_image(source_file_name, destination_blob_name):
     blob.upload_from_filename(source_file_name)
     blob.make_public()
     return blob.public_url
+
+
+def upload_new_embeddings():
+    """
+    Function to upload the new embeddings to GS cloud.
+    """
+    pass
+
+
+def move_existing_embedding_to_backup():
+    """
+    Function to move the current embeddings to a backup folder in the cloud.
+    """
+    pass
