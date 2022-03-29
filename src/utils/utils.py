@@ -1,21 +1,14 @@
 import base64
+import os
+import pickle
+import urllib.request
+
 import cv2
 import numpy as np
 from PIL import Image
-import urllib.request
-import os
 
-# from config.config import APP_TEMP_PATH
-# import os
-# import uuid
-# def save_image(image_string):
-#     img_bytes = image_string.encode('utf-8')
-#     img_data = base64.decodebytes(img_bytes)
-#     file_name = f'{uuid.uuid4()}.jpg'
-#     image_path = os.path.join(APP_TEMP_PATH, file_name)
-#     with open(image_path, "wb") as fh:
-#         fh.write(img_data)
-#     return image_path
+from actions.load_embeddings import EMBEDDINGS
+from config import config
 
 
 def convert_image_string_to_nparray(image_string):
@@ -35,3 +28,35 @@ def download_and_load_image(url, img_dir):
     urllib.request.urlretrieve(url, img_path)
     img = cv2.imread(img_path)
     return img
+
+
+def save_embeddings():
+    """
+    Save embeddings to upload to cloud.
+    """
+
+    embeddings_path = os.path.join(config.APP_PRETRAINED_MODELS_PATH, "models/embeddings/embed.h5py")
+
+    # Remove existing embedding file.
+    if os.path.exists(embeddings_path):
+        os.remove(embeddings_path)
+
+    with open(embeddings_path, 'wb') as handle:
+        pickle.dump(EMBEDDINGS, handle, protocol=pickle.HIGHEST_PROTOCOL)
+
+
+def reset_embeddings():
+    """
+    Create an empty embeddings file.
+    """
+
+    EMBEDDINGS.clear()
+
+    embeddings_path = os.path.join(config.APP_PRETRAINED_MODELS_PATH, "models/embeddings/embed.h5py")
+
+    # Remove existing embedding file.
+    if os.path.exists(embeddings_path):
+        os.remove(embeddings_path)
+
+    with open(embeddings_path, 'wb') as handle:
+        pickle.dump(EMBEDDINGS, handle, protocol=pickle.HIGHEST_PROTOCOL)
