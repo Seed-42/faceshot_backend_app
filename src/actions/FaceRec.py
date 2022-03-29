@@ -10,7 +10,8 @@ from sklearn.preprocessing import normalize
 import numpy as np
 
 import utils
-from actions.load_model import MODEL, EMBEDDINGS
+from actions.load_model import MODEL
+from actions.load_embeddings import EMBEDDINGS
 import uuid
 import os
 
@@ -32,6 +33,7 @@ import os
 
 
 # data_path = "../Data/all/*"
+
 # name_dict = {
 #     "qb69UR7bW5RdcPMUKfnm3wbUP4A3": 0,
 #     "MVF4I3Hxusd0VAmS38xqWQjuhgu2": 1,
@@ -50,14 +52,17 @@ import os
 #     "pheo": 5
 # }
 
-name_dict = {"prah":0, "jeri":1}
+# name_dict = {"prah": 0, "jeri": 1}
+
+# id_dict = {v: k for k, v in name_dict.items()}
+# id_dict['N/A'] = "N/A"
 
 detector = MTCNN()
 
 
 class FaceRec:
 
-    def __init__(self, tmp_data_folder_path):
+    def __init__(self, tmp_data_folder_path=""):
         self.tmp_folder = tmp_data_folder_path
 
     def preprocess(self, img, bbox=None, landmark=None, **kwargs):
@@ -146,9 +151,41 @@ class FaceRec:
 
         return max_similarity_identity, max_similarity_confidence.round(4)
 
+    def get_input(self, face_img):
+        # Pass input images through face detector
+        faces = detector.detect_faces(face_img)
+        ret = np.array(
+            [np.asarray([face['box'][0], face['box'][1], face['box'][2], face['box'][3], face['confidence']]) for face
+             in faces]), np.array([np.array(
+            [element[0] for element in face['keypoints'].values()] + [element[1] for element in
+                                                                      face['keypoints'].values()]) for face in faces])
+
+        if ret is None:
+            return None
+        bbox, points = ret
+        if bbox.shape[0] == 0:
+            return None
+
+        bbox = bbox[0, 0:4]
+        points = points[0, :].reshape((2, 5)).T
+        # Call preprocess() to generate aligned images
+        nimg = self.preprocess(face_img, bbox, points, image_size='112,112')
+        nimg = cv2.cvtColor(nimg, cv2.COLOR_BGR2RGB)
+        aligned = np.transpose(nimg, (2, 0, 1))
+        return aligned
+
+    def train(self, face_image, identity):
+        try:
+            embed = self.get_feature(MODEL, self.get_input(face_image))
+            # new_face_id = len(self.name_dict)
+            # self.id_dict[new_face_id] = identity
+            # self.name_dict[identity] = new_face_id
+            EMBEDDINGS[embed.tobytes()] = identity
+
+        except Exception as e:
+            print("ERROR:", e)
+
     def runFaceRec(self, image):
-        id_dict = {v: k for k, v in name_dict.items()}
-        id_dict['N/A'] = "N/A"
         detected_identities = []
 
         faces = detector.detect_faces(image)
@@ -178,7 +215,10 @@ class FaceRec:
                 aligned = np.transpose(nimg, (2, 0, 1))
 
                 embed = self.get_feature(MODEL, aligned)
-                id, confidence = self.max_similarity(EMBEDDINGS, embed)
+                if EMBEDDINGS:
+                    id, confidence = self.max_similarity(EMBEDDINGS, embed)
+                else:
+                    id, confidence = "N/A", 0.0
 
                 # save image.
                 img_array = aligned[0]
@@ -189,15 +229,19 @@ class FaceRec:
                 destination_path = os.path.join(destination_base_folder, f"{str(uuid.uuid4())}.jpeg")
                 file_url = utils.gcloud_utils.upload_image(img_path_local, destination_path)
 
+                # Change student_id to "N/A" if confidence is less than 20.
+                if confidence < 0.20:
+                    id = "N/A"
+
                 detected_identities.append(
                     {
-                        "student_id": id_dict[id],
+                        "student_id": id,
                         "student_attendance_confidence": round(float(confidence), 2),
                         "file_url": file_url
                     },
                 )
 
-                print(id_dict[id], confidence)
+                print(id, confidence)
                 print(file_url, "\n")
 
         return detected_identities

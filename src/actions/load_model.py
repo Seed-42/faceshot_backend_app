@@ -1,12 +1,12 @@
 import os
-import pickle
 from datetime import datetime
 
 import mxnet as mx
 from mxnet.contrib.onnx.onnx2mx.import_model import import_model
 
-from config.config import APP_PRETRAINED_MODELS_PATH
-from utils.gcloud_utils import download_models
+from config import config
+
+from utils import gcloud_utils
 
 if len(mx.test_utils.list_gpus()) == 0:
     context = mx.cpu()
@@ -21,7 +21,7 @@ def get_model():
 
     print(f"Model loading started..")
     start_time = datetime.now()
-    model_path = os.path.join(APP_PRETRAINED_MODELS_PATH, "models/base_model/resnet100.onnx")
+    model_path = os.path.join(config.APP_PRETRAINED_MODELS_PATH, "models/base_model/resnet100.onnx")
     image_size = (112, 112)
 
     # Import ONNX model
@@ -36,15 +36,7 @@ def get_model():
     return model
 
 
-def get_embeddings():
-    embeddings_path = os.path.join(APP_PRETRAINED_MODELS_PATH, "models/embeddings/embed.h5py")
-    with open(embeddings_path, 'rb') as handle:
-        embeddings = pickle.load(handle)
-    return embeddings
-
-
 # Download models from cloud.
-download_models()
+gcloud_utils.download_models()
 
 MODEL = get_model()
-EMBEDDINGS = get_embeddings()
